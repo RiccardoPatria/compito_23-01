@@ -1,10 +1,7 @@
-const { default: fetch } = require("node-fetch")
+const fetch = require("node-fetch")
 
 module.exports.homePage = (data) => {
-  let str = ""
-  data.forEach(e => {
-    str += `<h1>${e.id}. ${e.title}</h1><p>${e.body}</p><form method="get" action="/post/${e.id}"><button>Post</button></form>`
-  })
+  const str = data.reduce((acc, e) => acc + `<h1>${e.id}. ${e.title}</h1><p>${e.body}</p><form method="get" action="/post/${e.id}"><button>Post</button></form>`, "")
   return str
 }
 
@@ -14,9 +11,7 @@ module.exports.postPage = async(post) => {
     .then(response => response.json())
     .then(data => {
       const comments = data.filter(e => e.postId === post.id)
-      comments.forEach(e => {
-        str += `<h5>User: ${e.email}</h5><p><strong>${e.name}</strong></p><p>${e.body}</p>`
-      })
+      str = comments.reduce((acc, e) => acc + `<h5>User: ${e.email}</h5><p><strong>${e.name}</strong></p><p>${e.body}</p>`, str)
     })
     .catch(err => console.log(err))
   return str
