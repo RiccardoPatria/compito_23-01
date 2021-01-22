@@ -1,12 +1,11 @@
 const fetch = require("node-fetch")
 
-module.exports.homePage = (data) => {
+module.exports.pag1 = (data) => {
   const str = data.reduce((acc, e) => acc + `<h1>${e.id}. ${e.title}</h1><p>${e.body}</p><form method="get" action="/post/${e.id}"><button>Post</button></form>`, "")
   return str
 }
-
-module.exports.postPage = async(post) => {
-  let str = `<h1>${post.title}</h1><h3>${post.body}</h3><h4>Comments:</h4>`
+module.exports.pag2 = async(post) => {
+  let str = `<h2>${post.title}</h2><h4>${post.body}</h4><h5>Comments:</h5>`
   await fetch("https://jsonplaceholder.typicode.com/comments")
     .then(response => response.json())
     .then(data => {
